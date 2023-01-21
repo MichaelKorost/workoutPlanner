@@ -1,14 +1,15 @@
 {
   "name": "workout-planner",
   "version": "1.0.0",
-  "description": "",
+  "description": "workoutPlanner backend server",
   "main": "server.js",
   "engines": {
     "node": "14.x"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "node server.js",
+    "server": "nodemon server.js"
   },
   "repository": {
     "type": "git",
