@@ -31,6 +31,7 @@ app.use((req, res, next) => {
 
 app.use("/", async function (req, res) {
   const data = await global.db.collection("exercises").find({}).toArray();
+  console.log("route /");
   res.send({ data });
 });
 
@@ -41,3 +42,5 @@ client.connect().then(() => {
     console.log(`listening to server`.green.underline);
   });
 });
+
+module.exports = app;
