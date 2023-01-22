@@ -45,7 +45,7 @@ app.post("/test", async (req, res) => {
   }
 });
 
-const port = process.env.PORT;
+const port = 80;
 app.listen(port, async () =>
   console.log(`listening to port: ${port}`.white.underline.bgGreen)
 );
