@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.get("/api", async (req, res) => {
-  res.json("hello");
+  res.json({ data: "hello" });
 });
 
 app.get("/test", async (req, res) => {
