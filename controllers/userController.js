@@ -59,10 +59,12 @@ const registerUser = expressAsyncHandler(async (req, res) => {
 const loginUser = expressAsyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  // check for user email
+  // find user by email
   const user = await User.findOne({ email });
 
-  if (user && (await bcrypt.compare(password, user.password))) {
+  // compare passwords
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (user && isMatch) {
     res.json({
       _id: user.id,
       email: user.email,
@@ -79,6 +81,7 @@ const loginUser = expressAsyncHandler(async (req, res) => {
 // @access  Private
 
 const getMe = expressAsyncHandler(async (req, res) => {
+  console.log(req.user);
   res.status(200).json(req.user);
 });
 
@@ -104,34 +107,3 @@ const getAllUsers = expressAsyncHandler(async (req, res) => {
 });
 
 module.exports = { registerUser, loginUser, getMe, getAllUsers };
-
-// app.get("/getusers", async (req, res) => {
-//   try {
-//     const users = await Test.find({});
-//     res.status(200).json(users);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
-
-// app.post("/test", async (req, res) => {
-//   try {
-//     const { name, age } = req.body;
-//     if (!name || !age) {
-//       res.status(400).json("Please add all fields");
-//     }
-//     const userTest = await Test.create({
-//       name,
-//       age,
-//     });
-//     if (userTest) {
-//       res.status(200).json({
-//         _id: userTest.id,
-//         name: userTest.name,
-//         age: userTest.age,
-//       });
-//     }
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
