@@ -1,11 +1,12 @@
-const Exercise = require("../models/exerciseModel");
-const expressAsyncHandler = require("express-async-handler");
+const { Exercise } = require("../models/exerciseModel");
+
+const asyncHandler = require("express-async-handler");
 
 // @Desc         Get all exercises
 // @Route        GET /api/exercises
 // @access       public
 
-const getExercises = expressAsyncHandler(async (req, res) => {
+const getExercises = asyncHandler(async (req, res) => {
   const exercises = await Exercise.find({});
 
   res.status(200).json(exercises);
@@ -15,7 +16,7 @@ const getExercises = expressAsyncHandler(async (req, res) => {
 // @Route        GET /api/exercises/group/:group
 // @access       public
 
-const getExercisesByGroup = expressAsyncHandler(async (req, res) => {
+const getExercisesByGroup = asyncHandler(async (req, res) => {
   const { group } = req.params;
   if (!group) {
     res.status(400);
@@ -31,7 +32,7 @@ const getExercisesByGroup = expressAsyncHandler(async (req, res) => {
 // @Route        GET /api/exercises/tags/:tag1,tag2
 // @access       public
 
-const getExercisesByTags = expressAsyncHandler(async (req, res) => {
+const getExercisesByTags = asyncHandler(async (req, res) => {
   const { tag } = req.params;
   if (!tag) {
     res.status(400);
@@ -48,7 +49,7 @@ const getExercisesByTags = expressAsyncHandler(async (req, res) => {
 // @Route        GET /api/exercises/difficulty/:difficulty
 // @access       public
 
-const getExercisesByDifficuly = expressAsyncHandler(async (req, res) => {
+const getExercisesByDifficuly = asyncHandler(async (req, res) => {
   const { difficulty } = req.params;
   if (!difficulty) {
     res.status(400);
@@ -66,7 +67,7 @@ const getExercisesByDifficuly = expressAsyncHandler(async (req, res) => {
 // @Route        GET /api/exercises/name/:name  replace space === %20
 // @access       public
 
-const getExercisesByName = expressAsyncHandler(async (req, res) => {
+const getExercisesByName = asyncHandler(async (req, res) => {
   const { name } = req.params;
   if (!name) {
     res.status(400);
@@ -83,7 +84,7 @@ const getExercisesByName = expressAsyncHandler(async (req, res) => {
 // @Route        GET /api/exercises/search?group=traps&tags=weights,barbell&difficulty=Advanced
 // @access       public
 
-const getExercisesBySearch = expressAsyncHandler(async (req, res) => {
+const getExercisesBySearch = asyncHandler(async (req, res) => {
   const { group, tag, difficulty, name } = req.query;
 
   // create an empty query object
