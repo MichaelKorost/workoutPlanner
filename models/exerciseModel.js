@@ -1,8 +1,11 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+// TODO: isFav
+
 const exerciseSchema = new Schema({
   name: String,
+  image: String,
   group: String,
   tags: Array,
   difficulty: String,
