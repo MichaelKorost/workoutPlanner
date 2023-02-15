@@ -80,6 +80,22 @@ const getExercisesByName = asyncHandler(async (req, res) => {
   res.status(200).json(exercises);
 });
 
+// @Desc         Get exercise by id
+// @Route        GET /api/exercises/id/:id
+// @access       public
+
+const getExerciseById = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const exercise = await Exercise.findById(id);
+
+  if (!exercise) {
+    res.status(404);
+    throw new Error("Exercise not found");
+  }
+
+  res.status(200).json(exercise);
+});
+
 // @Desc         Get exercises by conpound search
 // @Route        GET /api/exercises/search?group=traps&tags=weights,barbell&difficulty=Advanced
 // @access       public
@@ -121,4 +137,5 @@ module.exports = {
   getExercisesByDifficuly,
   getExercisesByName,
   getExercisesBySearch,
+  getExerciseById,
 };
