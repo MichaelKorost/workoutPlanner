@@ -22,11 +22,19 @@ const getExercisesByGroup = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error('please fill the "group" - path /group/:group');
   }
+  const groups = group.split(",");
   const exercises = await Exercise.find({
-    group: { $regex: group, $options: "i" },
+    group: { $in: groups.map((group) => RegExp(group, "i")) },
   });
   res.status(200).json(exercises);
 });
+
+/* backup
+const exercises = await Exercise.find({
+    group: { $regex: group, $options: "i" },
+  });
+  res.status(200).json(exercises);
+*/
 
 // @Desc         Get exercises by tags
 // @Route        GET /api/exercises/tags/:tag1,tag2
@@ -107,7 +115,8 @@ const getExercisesBySearch = asyncHandler(async (req, res) => {
   let query = {};
 
   if (group) {
-    query["group"] = { $regex: group, $options: "i" };
+    const groups = group.split(",");
+    query["group"] = { $in: groups.map((group) => RegExp(group, "i")) };
   }
 
   if (tag) {
@@ -117,7 +126,10 @@ const getExercisesBySearch = asyncHandler(async (req, res) => {
   }
 
   if (difficulty) {
-    query["difficulty"] = { $regex: difficulty, $options: "i" };
+    const difficulties = difficulty.split(",");
+    query["difficulty"] = {
+      $in: difficulties.map((difficulty) => RegExp(difficulty, "i")),
+    };
   }
 
   if (name) {
@@ -129,6 +141,12 @@ const getExercisesBySearch = asyncHandler(async (req, res) => {
 
   res.status(200).json(exercises);
 });
+
+/*
+f (difficulty) {
+  //   query["difficulty"] = { $regex: difficulty, $options: "i" };
+  // }
+*/
 
 module.exports = {
   getExercises,
