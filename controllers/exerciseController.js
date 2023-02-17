@@ -109,45 +109,33 @@ const getExerciseById = asyncHandler(async (req, res) => {
 // @access       public
 
 const getExercisesBySearch = asyncHandler(async (req, res) => {
-  const { group, tags, difficulty } = req.query;
-
-  // empty query object
+  const { group, tags, difficulty, name } = req.query;
+  // create an empty query object
   let query = {};
-
-  //  an array to hold the conditions for the $and operator
-  let conditions = [];
 
   if (group) {
     const groups = group.split(",");
-    conditions.push({
-      group: { $all: groups.map((group) => RegExp(group, "i")) },
-    });
+    query["group"] = { $in: groups.map((group) => RegExp(group, "i")) };
   }
 
   if (tags) {
-    const tagArr = tags.split(",");
-    conditions.push({
-      tags: { $all: tagArr.map((tag) => RegExp(tag, "i")) },
-    });
+    // split the tags query into an array
+    const tagsArr = tags.split(",");
+    query["tags"] = { $in: tagsArr.map((tag) => RegExp(tag, "i")) };
   }
 
   if (difficulty) {
     const difficulties = difficulty.split(",");
-    conditions.push({
-      difficulty: {
-        $in: difficulties.map((difficulty) => RegExp(difficulty, "i")),
-      },
-    });
+    query["difficulty"] = {
+      $in: difficulties.map((difficulty) => RegExp(difficulty, "i")),
+    };
   }
 
-  // $and operator to combine the conditions
-  if (conditions.length > 0) {
-    query = { $and: conditions };
+  if (name) {
+    query["name"] = { $regex: name, $options: "i" };
   }
-
   // using the built query object to find matching exercises
   const exercises = await Exercise.find(query);
-
   res.status(200).json(exercises);
 });
 
