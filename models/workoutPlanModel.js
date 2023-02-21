@@ -25,6 +25,7 @@ const Schema = mongoose.Schema;
 
 const workoutPlanSchema = new Schema({
   title: String,
+  creator: String,
   plan: [
     {
       muscleGroup: String,
