@@ -15,6 +15,18 @@ const getWorkoutPlans = asyncHandler(async (req, res) => {
   res.status(200).json(workoutPlans);
 });
 
+// @desc    Get workoutPlans
+// @route   GET /api/workouts/
+// @access  Private
+
+const getUserWorkoutPlans = asyncHandler(async (req, res) => {
+  const userWorkoutPlans = await WorkoutPlan.find({ user: req.user._id });
+  if (userWorkoutPlans.length === 0) {
+    throw new Error("no workout plans were found for this user");
+  }
+  res.status(200).json(userWorkoutPlans);
+});
+
 // @desc    create workoutPlans
 // @route   POST /api/workouts/create
 // @access  Public
@@ -27,6 +39,7 @@ const createWorkoutPlan = asyncHandler(async (req, res) => {
   }
 
   const newWorkout = await WorkoutPlan.create({
+    user: req.user._id,
     title: title,
     plan: plan,
   });
@@ -105,6 +118,7 @@ module.exports = {
   getWorkoutPlans,
   updateWorkoutPlan,
   deleteWorkoutPlan,
+  getUserWorkoutPlans,
 };
 
 /*

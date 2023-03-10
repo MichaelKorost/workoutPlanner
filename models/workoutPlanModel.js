@@ -26,7 +26,7 @@ const Schema = mongoose.Schema;
 const workoutPlanSchema = new Schema(
   {
     title: String,
-    creator: String,
+    user: { type: Schema.Types.ObjectId, ref: "User" },
     plan: [
       {
         muscleGroup: String,
