@@ -62,7 +62,11 @@ const updateUserCalendarEvents = asyncHandler(async (req, res) => {
     _id: { $in: eventsToDelete.map((event) => event._id) },
   });
 
-  res.status(200).json({ message: "Calendar events updated" });
+  const updatedUserCalendarEvents = await CalendarEvent.find({
+    user: req.user._id,
+  });
+
+  res.status(200).json(updatedUserCalendarEvents);
 });
 
 module.exports = {
