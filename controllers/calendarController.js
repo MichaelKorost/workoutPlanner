@@ -21,9 +21,9 @@ const updateUserCalendarEvents = asyncHandler(async (req, res) => {
   // Get the new events from the request body
   const newEvents = req.body.events;
 
-  // Loop through the new events and add or update them in the database
+  // Looping through the new events and adding or updating them in the db
   for (const newEvent of newEvents) {
-    // Check if the new event has an ID. If it does, update the existing event in the database
+    // Check if the new event has an ID. If it does, update the existing event in the db
     if (newEvent.id) {
       const existingEvent = userCalendarEvents.find(
         (event) => event._id.toString() === newEvent.id
@@ -69,3 +69,25 @@ module.exports = {
   getUserCalendarEvents,
   updateUserCalendarEvents,
 };
+
+/*
+{
+  "events": [
+    {
+      "id": "event-123",
+      "title": "Updated Event Title v2",
+      "date": "2022-04-01"
+    },
+    {
+      "id": "event-456",
+      "title": "New Event Title",
+      "date": "2022-04-02"
+    },
+    {
+      "id": "event-890",
+      "title": "newer Event",
+      "date": "2022-04-07"
+    }
+  ]
+}
+  */
