@@ -17,6 +17,7 @@ app.use(cors);
 app.use("/api/workouts", require("./routes/workoutRoutes"));
 app.use("/api/exercises", require("./routes/exerciseRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
+app.use("/api/calendar", require("./routes/calendarRoutes"));
 
 app.use(errorHandler);
 
