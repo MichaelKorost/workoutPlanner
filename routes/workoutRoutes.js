@@ -7,11 +7,16 @@ const {
   updateWorkoutPlan,
   deleteWorkoutPlan,
   getUserWorkoutPlans,
+  getWorkoutPlanById,
 } = require("../controllers/workoutPlanController");
 
 router.post("/create", protect, createWorkoutPlan);
 router.get("/my", protect, getUserWorkoutPlans);
 router.get("/", getWorkoutPlans);
-router.route("/:id").put(updateWorkoutPlan).delete(deleteWorkoutPlan);
+router
+  .route("/:id")
+  .put(protect, updateWorkoutPlan)
+  .delete(protect, deleteWorkoutPlan)
+  .get(getWorkoutPlanById);
 
 module.exports = router;

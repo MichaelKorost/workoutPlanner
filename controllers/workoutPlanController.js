@@ -14,6 +14,21 @@ const getWorkoutPlans = asyncHandler(async (req, res) => {
 
   res.status(200).json(workoutPlans);
 });
+// @desc    Get workoutPlanById
+// @route   GET /api/workouts/id/:id
+// @access  Public
+
+const getWorkoutPlanById = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const workoutPlan = await WorkoutPlan.findById(id);
+
+  if (!workoutPlan) {
+    res.status(404);
+    throw new Error("WorkoutPlan not found");
+  }
+
+  res.status(200).json(workoutPlan);
+});
 
 // @desc    Get workoutPlans
 // @route   GET /api/workouts/
@@ -119,6 +134,7 @@ module.exports = {
   updateWorkoutPlan,
   deleteWorkoutPlan,
   getUserWorkoutPlans,
+  getWorkoutPlanById,
 };
 
 /*
