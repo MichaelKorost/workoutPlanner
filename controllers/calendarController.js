@@ -35,11 +35,13 @@ const updateUserCalendarEvents = asyncHandler(async (req, res) => {
           user: req.user._id,
           date: newEvent.date,
           title: newEvent.title,
+          workout: newEvent.workout,
         });
         await calendarEvent.save();
       } else {
         existingEvent.date = newEvent.date;
         existingEvent.title = newEvent.title;
+        existingEvent.workout = newEvent.workout;
         await existingEvent.save();
       }
     } else {
@@ -48,6 +50,7 @@ const updateUserCalendarEvents = asyncHandler(async (req, res) => {
         user: req.user._id,
         date: newEvent.date,
         title: newEvent.title,
+        workout: newEvent.workout,
       });
       await calendarEvent.save();
     }
