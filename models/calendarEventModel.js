@@ -6,7 +6,7 @@ const calendarEventSchema = new Schema({
   date: String,
   id: String,
   title: String,
-  workout: Array,
+  workout: Object,
 });
 
 module.exports = mongoose.model("CalendarEvent", calendarEventSchema);
