@@ -1,4 +1,5 @@
 const asyncHandler = require("express-async-handler");
+const { default: mongoose } = require("mongoose");
 
 const WorkoutPlan = require("../models/workoutPlanModel");
 
@@ -102,31 +103,54 @@ const updateWorkoutPlan = asyncHandler(async (req, res) => {
 // @access  Private
 
 const deleteWorkoutPlan = asyncHandler(async (req, res) => {
-  const workoutPlan = await WorkoutPlan.findById(req.params.id);
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: "invalid id provided" });
+  }
+
+  const workoutPlan = await WorkoutPlan.findById(id);
 
   if (!workoutPlan) {
     res.status(400);
     throw new Error("workout plan not found");
   }
 
-  // TODO: implement user validation
-
-  // check for user
   if (!req.user) {
-    res.status(400);
-    throw new Error("User not found");
+    res.status(401).json({ message: "User not logged in" });
   }
 
-  // TODO: make sure the logged in user matches the workoutplan
-  if (workoutPlan.user) {
-    res.status(401);
-    throw new Error("User not authorized");
+  // validating the logged user and workoutplan ids match
+  if (workoutPlan.user.toString() !== req.user.id) {
+    res.status(401).json({ message: "User not authorized" });
   }
 
-  await workoutPlan.remove();
-
-  res.status(200).json({ id: req.params.id, message: "workout deleted" });
+  try {
+    await workoutPlan.remove();
+    res.status(200).json({ id: id + " removed successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error removing favorite" });
+  }
 });
+
+// TODO: implement user validation
+
+// check for user
+// if (!req.user) {
+//   res.status(400);
+//   throw new Error("User not found");
+// }
+
+// TODO: make sure the logged in user matches the workoutplan
+// if (workoutPlan.user) {
+//   res.status(401);
+//   throw new Error("User not authorized");
+// }
+
+// await workoutPlan.remove();
+
+// res.status(200).json({ id: req.params.id, message: "workout deleted" });
+// });
 
 module.exports = {
   createWorkoutPlan,
