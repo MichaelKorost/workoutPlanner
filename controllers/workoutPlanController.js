@@ -77,16 +77,16 @@ const updateWorkoutPlan = asyncHandler(async (req, res) => {
   // TODO: implement user validation
 
   // check for user
-  // if (!req.user) {
-  //     res.status(400)
-  //     throw new Error("User not found")
-  // }
+  if (!req.user) {
+    res.status(400);
+    throw new Error("User not found");
+  }
 
   // TODO: make sure the logged in user matches the workoutplan
-  // if (workoutPlan.user) {
-  //     res.status(401)
-  //     throw new Error("User not authorized")
-  // }
+  if (workoutPlan.user) {
+    res.status(401);
+    throw new Error("User not authorized");
+  }
 
   const updatedWorkoutPlan = await WorkoutPlan.findByIdAndUpdate(
     req.params.id,
@@ -112,16 +112,16 @@ const deleteWorkoutPlan = asyncHandler(async (req, res) => {
   // TODO: implement user validation
 
   // check for user
-  // if (!req.user) {
-  //     res.status(400)
-  //     throw new Error("User not found")
-  // }
+  if (!req.user) {
+    res.status(400);
+    throw new Error("User not found");
+  }
 
   // TODO: make sure the logged in user matches the workoutplan
-  // if (workoutPlan.user) {
-  //     res.status(401)
-  //     throw new Error("User not authorized")
-  // }
+  if (workoutPlan.user) {
+    res.status(401);
+    throw new Error("User not authorized");
+  }
 
   await workoutPlan.remove();
 
