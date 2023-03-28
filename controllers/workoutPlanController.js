@@ -128,7 +128,7 @@ const deleteWorkoutPlan = asyncHandler(async (req, res) => {
     await workoutPlan.remove();
     res.status(200).json({ id: id + " removed successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Error removing favorite" });
+    res.status(500).json({ message: "Error removing workout" });
   }
 });
 
