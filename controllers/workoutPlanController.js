@@ -93,9 +93,9 @@ const updateWorkoutPlan = asyncHandler(async (req, res) => {
     new: true,
   });
 
-  const userWorkoutPlans = await WorkoutPlan.find({ user: req.user._id });
+  // const userWorkoutPlans = await WorkoutPlan.find({ user: req.user._id });
 
-  res.status(200).json(userWorkoutPlans);
+  res.status(200).json(updatedWorkoutPlan);
 });
 
 // @desc    delete workoutPlan
