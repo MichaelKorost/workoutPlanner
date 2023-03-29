@@ -73,7 +73,6 @@ const updateWorkoutPlan = asyncHandler(async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ message: "invalid id provided" });
   }
-
   const workoutPlan = await WorkoutPlan.findById(id);
 
   if (!workoutPlan) {
@@ -94,7 +93,9 @@ const updateWorkoutPlan = asyncHandler(async (req, res) => {
     new: true,
   });
 
-  res.status(200).json(updatedWorkoutPlan);
+  const userWorkoutPlans = await WorkoutPlan.find({ user: req.user._id });
+
+  res.status(200).json(userWorkoutPlans);
 });
 
 // @desc    delete workoutPlan
@@ -126,7 +127,8 @@ const deleteWorkoutPlan = asyncHandler(async (req, res) => {
 
   try {
     await workoutPlan.remove();
-    res.status(200).json({ id: id + " removed successfully" });
+    const userWorkoutPlans = await WorkoutPlan.find({ user: req.user._id });
+    res.status(200).json(userWorkoutPlans);
   } catch (error) {
     res.status(500).json({ message: "Error removing workout" });
   }
