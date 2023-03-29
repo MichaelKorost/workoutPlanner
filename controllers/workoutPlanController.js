@@ -127,8 +127,8 @@ const deleteWorkoutPlan = asyncHandler(async (req, res) => {
 
   try {
     await workoutPlan.remove();
-    const userWorkoutPlans = await WorkoutPlan.find({ user: req.user._id });
-    res.status(200).json(userWorkoutPlans);
+    // const userWorkoutPlans = await WorkoutPlan.find({ user: req.user._id });
+    res.status(200).json(id);
   } catch (error) {
     res.status(500).json({ message: "Error removing workout" });
   }
