@@ -8,9 +8,9 @@ const User = require("../models/userModel.js");
 // @access  Public
 
 const registerUser = expressAsyncHandler(async (req, res) => {
-  const { email, password, passwordConfirmation } = req.body;
+  const { name, email, password, passwordConfirmation } = req.body;
 
-  if (!email || !password || !passwordConfirmation) {
+  if (!email || !password || !passwordConfirmation || !name) {
     res.status(401);
     throw new Error("bad request, please add all fields");
   }
@@ -34,6 +34,7 @@ const registerUser = expressAsyncHandler(async (req, res) => {
 
   //   create user
   const user = await User.create({
+    name,
     email,
     password: hashedPassword,
   });
@@ -41,6 +42,7 @@ const registerUser = expressAsyncHandler(async (req, res) => {
   if (user) {
     res.status(201).json({
       _id: user.id,
+      name: user.name,
       email: user.email,
       password: user.password,
       passwordConfirmation: user.passwordConfirmation,

@@ -7,7 +7,7 @@ const userSchema = new Schema(
     email: {
       type: String,
       required: [true, "Email is required"],
-      uniqie: [true, "Email already taken"],
+      unique: [true, "Email already taken"],
       lowercase: true,
       trim: true,
     },
@@ -26,7 +26,7 @@ const userSchema = new Schema(
         message: "Passwords do not match",
       },
     },
-    name: String,
+    name: { type: String, required: [true, "Name is required"] },
     height: String,
     weight: String,
     gender: String,
