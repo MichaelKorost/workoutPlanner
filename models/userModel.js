@@ -33,14 +33,6 @@ const userSchema = new Schema(
       },
     },
     name: { type: String, required: [true, "Name is required"] },
-    pic: {
-      public_id: {
-        type: String,
-      },
-      url: {
-        type: String,
-      },
-    },
   },
   {
     timestamps: true,
