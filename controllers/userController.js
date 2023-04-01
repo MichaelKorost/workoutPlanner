@@ -12,7 +12,7 @@ const registerUser = expressAsyncHandler(async (req, res) => {
 
   if (!email || !password || !passwordConfirmation || !name) {
     res.status(401);
-    throw new Error("bad request, please add all fields");
+    throw new Error("Please add all fields");
   }
 
   if (password !== passwordConfirmation) {
@@ -25,7 +25,7 @@ const registerUser = expressAsyncHandler(async (req, res) => {
 
   if (userExists) {
     res.status(400);
-    throw new Error("bad request, user already exists");
+    throw new Error("User already exists");
   }
 
   // hash password
@@ -50,7 +50,7 @@ const registerUser = expressAsyncHandler(async (req, res) => {
     });
   } else {
     res.status(400);
-    throw new Error("bad request, invalid user data");
+    throw new Error("Invalid user data");
   }
 });
 
