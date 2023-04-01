@@ -15,6 +15,18 @@ const registerUser = expressAsyncHandler(async (req, res) => {
     throw new Error("Please add all fields");
   }
 
+  // validate email format
+  const emailRegex = /\S+@\S+\.\S+/;
+  if (!emailRegex.test(email)) {
+    res.status(400);
+    throw new Error("Email format is invalid");
+  }
+
+  if (password.length < 6) {
+    res.status(400);
+    throw new Error("Password must be at least 6 characters long");
+  }
+
   if (password !== passwordConfirmation) {
     res.status(400);
     throw new Error("Passwords do not match");
