@@ -10,6 +10,12 @@ const userSchema = new Schema(
       unique: [true, "Email already taken"],
       lowercase: true,
       trim: true,
+      validate: {
+        validator: function (v) {
+          return /\S+@\S+\.\S+/.test(v);
+        },
+        message: "Email format is invalid",
+      },
     },
     password: {
       type: String,
