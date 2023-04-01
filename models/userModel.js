@@ -33,11 +33,14 @@ const userSchema = new Schema(
       },
     },
     name: { type: String, required: [true, "Name is required"] },
-    height: String,
-    weight: String,
-    gender: String,
-    age: Number,
-    bmi: Number,
+    pic: {
+      public_id: {
+        type: String,
+      },
+      url: {
+        type: String,
+      },
+    },
   },
   {
     timestamps: true,

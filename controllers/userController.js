@@ -2,17 +2,18 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const expressAsyncHandler = require("express-async-handler");
 const User = require("../models/userModel.js");
+const cloudinary = require("../utils/cloudinary");
 
 // @desc    Register new user
 // @route   POST /api/users/register
 // @access  Public
 
 const registerUser = expressAsyncHandler(async (req, res) => {
-  const { name, email, password, passwordConfirmation } = req.body;
+  const { name, email, password, passwordConfirmation, pic } = req.body;
 
   if (!email || !password || !passwordConfirmation || !name) {
     res.status(401);
-    throw new Error("Please add all fields");
+    throw new Error("Please fill all fields");
   }
 
   // validate email format
@@ -44,8 +45,14 @@ const registerUser = expressAsyncHandler(async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
+  //upload picture
+  const result = await cloudinary.uploader.upload(pic, {
+    folder: "users",
+  });
+
   //   create user
   const user = await User.create({
+    pic: { public_id: result.public_id, url: result.secure_url },
     name,
     email,
     password: hashedPassword,
@@ -54,6 +61,7 @@ const registerUser = expressAsyncHandler(async (req, res) => {
   if (user) {
     res.status(201).json({
       _id: user.id,
+      pic: user.pic,
       name: user.name,
       email: user.email,
       password: user.password,
