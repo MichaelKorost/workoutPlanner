@@ -118,7 +118,7 @@ const updateUserName = expressAsyncHandler(async (req, res) => {
     _id: updatedUser._id,
     name: updatedUser.name,
     email: updatedUser.email,
-    token: updatedUser.token, //not regenerating might be a security issue
+    token: updatedUser._id,
   });
 });
 
