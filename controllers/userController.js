@@ -111,14 +111,14 @@ const updateUserName = expressAsyncHandler(async (req, res) => {
     throw new Error("User not found");
   }
 
-  user.name = name || user.name;
+  user.name = name;
   const updatedUser = await user.save();
 
   res.status(200).json({
     _id: updatedUser._id,
     name: updatedUser.name,
     email: updatedUser.email,
-    token: generateToken(updatedUser._id),
+    token: updatedUser.token, //not regenerating might be a security issue
   });
 });
 
