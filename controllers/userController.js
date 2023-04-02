@@ -91,12 +91,42 @@ const loginUser = expressAsyncHandler(async (req, res) => {
   }
 });
 
+// @desc    update user name
+// @route   PUT /api/users/me
+// @access  Private
+
+const updateUserName = expressAsyncHandler(async (req, res) => {
+  const { name } = req.body;
+
+  if (!name) {
+    res.status(401);
+    throw new Error("Please enter a name");
+  }
+
+  // find user by id
+  const user = await User.findById(req.user._id);
+
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  user.name = name || user.name;
+  const updatedUser = await user.save();
+
+  res.status(200).json({
+    _id: updatedUser._id,
+    name: updatedUser.name,
+    email: updatedUser.email,
+    token: generateToken(updatedUser._id),
+  });
+});
+
 // @desc    Get user data
 // @route   GET /api/users/me
 // @access  Private
 
 const getMe = expressAsyncHandler(async (req, res) => {
-  console.log(req.user);
   res.status(200).json(req.user);
 });
 
@@ -121,4 +151,10 @@ const getAllUsers = expressAsyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { registerUser, loginUser, getMe, getAllUsers };
+module.exports = {
+  registerUser,
+  loginUser,
+  getMe,
+  getAllUsers,
+  updateUserName,
+};
