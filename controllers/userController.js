@@ -103,16 +103,17 @@ const updateUserName = expressAsyncHandler(async (req, res) => {
     throw new Error("Please enter a name");
   }
 
-  // find user by id
-  const user = await User.findById(req.user._id);
+  // find user by id and update
+  const updatedUser = await User.findByIdAndUpdate(
+    req.user._id,
+    { name },
+    { new: true } // To return the updated user document
+  );
 
-  if (!user) {
+  if (!updatedUser) {
     res.status(404);
     throw new Error("User not found");
   }
-
-  user.name = name;
-  const updatedUser = await user.save();
 
   res.status(200).json({
     _id: updatedUser._id,
@@ -121,6 +122,33 @@ const updateUserName = expressAsyncHandler(async (req, res) => {
     token: generateToken(updatedUser._id),
   });
 });
+
+// const updateUserName = expressAsyncHandler(async (req, res) => {
+//   const { name } = req.body;
+
+//   if (!name) {
+//     res.status(401);
+//     throw new Error("Please enter a name");
+//   }
+
+//   // find user by id
+//   const user = await User.findById(req.user._id);
+
+//   if (!user) {
+//     res.status(404);
+//     throw new Error("User not found");
+//   }
+
+//   user.name = name;
+//   const updatedUser = await user.save();
+
+//   res.status(200).json({
+//     _id: updatedUser._id,
+//     name: updatedUser.name,
+//     email: updatedUser.email,
+//     token: generateToken(updatedUser._id),
+//   });
+// });
 
 // @desc    Get user data
 // @route   GET /api/users/me
