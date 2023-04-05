@@ -83,6 +83,7 @@ const loginUser = expressAsyncHandler(async (req, res) => {
   if (user && isMatch) {
     res.json({
       _id: user.id,
+      image: user.image,
       name: user.name,
       email: user.email,
       token: generateToken(user._id),
