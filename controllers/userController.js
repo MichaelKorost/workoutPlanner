@@ -8,7 +8,7 @@ const User = require("../models/userModel.js");
 // @access  Public
 
 const registerUser = expressAsyncHandler(async (req, res) => {
-  const { name, email, password, passwordConfirmation } = req.body;
+  const { name, email, password, passwordConfirmation, image } = req.body;
 
   if (!email || !password || !passwordConfirmation || !name) {
     res.status(401);
@@ -46,6 +46,7 @@ const registerUser = expressAsyncHandler(async (req, res) => {
 
   //   create user
   const user = await User.create({
+    image,
     name,
     email,
     password: hashedPassword,
@@ -54,6 +55,7 @@ const registerUser = expressAsyncHandler(async (req, res) => {
   if (user) {
     res.status(201).json({
       _id: user.id,
+      image: user.image,
       name: user.name,
       email: user.email,
       password: user.password,
