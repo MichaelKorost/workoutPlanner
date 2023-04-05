@@ -120,6 +120,7 @@ const updateUserName = expressAsyncHandler(async (req, res) => {
   res.status(200).json({
     _id: updatedUser._id,
     name: updatedUser.name,
+    image: updatedUser.image,
     email: updatedUser.email,
     token: generateToken(updatedUser._id),
   });
