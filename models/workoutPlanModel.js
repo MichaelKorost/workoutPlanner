@@ -27,6 +27,7 @@ const workoutPlanSchema = new Schema(
   {
     title: String,
     user: { type: Schema.Types.ObjectId, ref: "User" },
+    creator: { type: String },
     plan: [
       {
         muscleGroup: String,

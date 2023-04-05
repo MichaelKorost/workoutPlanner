@@ -56,10 +56,10 @@ const createWorkoutPlan = asyncHandler(async (req, res) => {
 
   const newWorkout = await WorkoutPlan.create({
     user: req.user._id,
+    creator: req.user.name,
     title: title,
     plan: plan,
   });
-
   res.status(200).json(newWorkout);
 });
 
