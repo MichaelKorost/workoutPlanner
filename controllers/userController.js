@@ -98,7 +98,7 @@ const loginUser = expressAsyncHandler(async (req, res) => {
 // @access  Private
 
 const updateUserName = expressAsyncHandler(async (req, res) => {
-  const { name } = req.body;
+  const { name, image } = req.body;
 
   if (!name) {
     res.status(401);
@@ -108,7 +108,7 @@ const updateUserName = expressAsyncHandler(async (req, res) => {
   // find user by id and update
   const updatedUser = await User.findByIdAndUpdate(
     req.user._id,
-    { name },
+    { name, image },
     { new: true } // To return the updated user document
   );
 
@@ -119,6 +119,7 @@ const updateUserName = expressAsyncHandler(async (req, res) => {
 
   res.status(200).json({
     _id: updatedUser._id,
+    image: updatedUser.image,
     name: updatedUser.name,
     email: updatedUser.email,
     token: generateToken(updatedUser._id),
