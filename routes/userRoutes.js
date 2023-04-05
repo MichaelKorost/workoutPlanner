@@ -6,11 +6,13 @@ const {
   loginUser,
   registerUser,
   updateUserName,
+  updateUserImage,
 } = require("../controllers/userController");
 const { protect } = require("../middleware/authMiddleware");
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
+router.put("/img", protect, updateUserImage);
 router.get("/", getAllUsers);
 
 router.route("/me").get(protect, getMe).put(protect, updateUserName);

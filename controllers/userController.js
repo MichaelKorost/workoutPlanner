@@ -124,33 +124,33 @@ const updateUserName = expressAsyncHandler(async (req, res) => {
     token: generateToken(updatedUser._id),
   });
 });
+// @desc    update user image
+// @route   PUT /api/users/me/img
+// @access  Private
 
-// const updateUserName = expressAsyncHandler(async (req, res) => {
-//   const { name } = req.body;
+const updateUserImage = expressAsyncHandler(async (req, res) => {
+  const { image } = req.body;
 
-//   if (!name) {
-//     res.status(401);
-//     throw new Error("Please enter a name");
-//   }
+  // find user by id and update
+  const updatedUser = await User.findByIdAndUpdate(
+    req.user._id,
+    { image },
+    { new: true } // To return the updated user document
+  );
 
-//   // find user by id
-//   const user = await User.findById(req.user._id);
+  if (!updatedUser) {
+    res.status(404);
+    throw new Error("User not found");
+  }
 
-//   if (!user) {
-//     res.status(404);
-//     throw new Error("User not found");
-//   }
-
-//   user.name = name;
-//   const updatedUser = await user.save();
-
-//   res.status(200).json({
-//     _id: updatedUser._id,
-//     name: updatedUser.name,
-//     email: updatedUser.email,
-//     token: generateToken(updatedUser._id),
-//   });
-// });
+  res.status(200).json({
+    _id: updatedUser._id,
+    name: updatedUser.name,
+    email: updatedUser.email,
+    image: updatedUser.image,
+    token: generateToken(updatedUser._id),
+  });
+});
 
 // @desc    Get user data
 // @route   GET /api/users/me
@@ -187,4 +187,5 @@ module.exports = {
   getMe,
   getAllUsers,
   updateUserName,
+  updateUserImage,
 };
