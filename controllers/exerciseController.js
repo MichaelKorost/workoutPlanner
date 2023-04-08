@@ -29,13 +29,6 @@ const getExercisesByGroup = asyncHandler(async (req, res) => {
   res.status(200).json(exercises);
 });
 
-/* backup
-const exercises = await Exercise.find({
-    group: { $regex: group, $options: "i" },
-  });
-  res.status(200).json(exercises);
-*/
-
 // @Desc         Get exercises by tags
 // @Route        GET /api/exercises/tags/:tag1,tag2
 // @access       public

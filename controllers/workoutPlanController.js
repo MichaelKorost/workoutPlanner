@@ -3,9 +3,6 @@ const { default: mongoose } = require("mongoose");
 
 const WorkoutPlan = require("../models/workoutPlanModel");
 
-// TODO: copy/fork workout plan
-// TODO: add a user to the workout schema for the user validation when updating
-
 // @desc    Get workoutPlans
 // @route   GET /api/workouts/
 // @access  Public
