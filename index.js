@@ -9,10 +9,11 @@ connectDB();
 const app = express();
 
 //middleware that parses encoded data content-type: application/x-www-form-urlencoded, submitted by forms
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 
 app.use(cors);
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/workouts", require("./routes/workoutRoutes"));
 app.use("/api/exercises", require("./routes/exerciseRoutes"));
