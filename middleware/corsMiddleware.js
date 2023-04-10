@@ -9,6 +9,7 @@ const cors = (req, res, next) => {
     "X-Requested-With,Content-Type,Authorization"
   );
   res.setHeader("Access-Control-Allow-Credentials", true);
+  res.setHeader("Cache-Control", "no-cache");
   // Pass to next layer of middleware
   if (req.method === "OPTIONS") res.sendStatus(200);
   else next();
